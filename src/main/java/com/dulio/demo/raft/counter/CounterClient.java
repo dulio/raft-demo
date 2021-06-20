@@ -16,6 +16,16 @@
  */
 package com.dulio.demo.raft.counter;
 
+import com.alipay.sofa.jraft.RouteTable;
+import com.alipay.sofa.jraft.conf.Configuration;
+import com.alipay.sofa.jraft.entity.PeerId;
+import com.alipay.sofa.jraft.error.RemotingException;
+import com.alipay.sofa.jraft.option.CliOptions;
+import com.alipay.sofa.jraft.rpc.InvokeCallback;
+import com.alipay.sofa.jraft.rpc.impl.cli.CliClientServiceImpl;
+import com.dulio.demo.raft.counter.rpc.IncrementAndGetRequest;
+import com.dulio.demo.raft.counter.rpc.ValueResponse;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,17 +33,6 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
-
-import com.alipay.sofa.jraft.RouteTable;
-import com.alipay.sofa.jraft.conf.Configuration;
-import com.alipay.sofa.jraft.entity.PeerId;
-import com.alipay.sofa.jraft.error.RemotingException;
-import com.dulio.demo.raft.counter.rpc.IncrementAndGetRequest;
-import com.alipay.sofa.jraft.option.CliOptions;
-import com.alipay.sofa.jraft.rpc.InvokeCallback;
-import com.alipay.sofa.jraft.rpc.impl.cli.CliClientServiceImpl;
-import com.dulio.demo.raft.counter.rpc.ValueResponse;
-import org.apache.commons.lang.ArrayUtils;
 
 public class CounterClient {
     private static final Queue<Long> globalQueue = new ConcurrentLinkedQueue<>();

@@ -34,9 +34,7 @@ import com.alipay.sofa.jraft.rpc.RpcServer;
 
 /**
  * Counter server that keeps a counter value in a raft group.
- *
  * @author boyan (boyan@alibaba-inc.com)
- *
  * 2018-Apr-09 4:51:02 PM
  */
 public class CounterServer {
