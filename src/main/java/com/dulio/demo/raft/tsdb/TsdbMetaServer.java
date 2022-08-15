@@ -14,37 +14,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dulio.demo.raft.counter;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
+package com.dulio.demo.raft.tsdb;
 
 import com.alipay.sofa.jraft.Node;
 import com.alipay.sofa.jraft.RaftGroupService;
 import com.alipay.sofa.jraft.conf.Configuration;
 import com.alipay.sofa.jraft.entity.PeerId;
-import com.dulio.demo.raft.counter.rpc.GetValueRequestProcessor;
-import com.dulio.demo.raft.counter.rpc.IncrementAndGetRequestProcessor;
-import com.dulio.demo.raft.counter.rpc.ValueResponse;
 import com.alipay.sofa.jraft.option.NodeOptions;
 import com.alipay.sofa.jraft.rpc.RaftRpcServerFactory;
 import com.alipay.sofa.jraft.rpc.RpcServer;
+import com.dulio.demo.raft.counter.CounterService;
+import com.dulio.demo.raft.counter.CounterServiceImpl;
+import com.dulio.demo.raft.counter.CounterStateMachine;
+import com.dulio.demo.raft.counter.rpc.GetValueRequestProcessor;
+import com.dulio.demo.raft.counter.rpc.IncrementAndGetRequestProcessor;
+import com.dulio.demo.raft.counter.rpc.ValueResponse;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Counter server that keeps a counter value in a raft group.
  * @author boyan (boyan@alibaba-inc.com)
  * 2018-Apr-09 4:51:02 PM
  */
-public class CounterServer {
+public class TsdbMetaServer {
 
     private RaftGroupService    raftGroupService;
     private Node                node;
     private CounterStateMachine fsm;
 
-    public CounterServer(final String dataPath, final String groupId, final PeerId serverId,
-                         final NodeOptions nodeOptions) throws IOException {
+    public TsdbMetaServer(final String dataPath, final String groupId, final PeerId serverId,
+                          final NodeOptions nodeOptions) throws IOException {
         // 初始化路径
         FileUtils.forceMkdir(new File(dataPath));
 
@@ -132,7 +134,7 @@ public class CounterServer {
         nodeOptions.setInitialConf(initConf);
 
         // 启动
-        final CounterServer counterServer = new CounterServer(dataPath, groupId, serverId, nodeOptions);
+        final TsdbMetaServer counterServer = new TsdbMetaServer(dataPath, groupId, serverId, nodeOptions);
         System.out.println("Started counter server at port:"
                            + counterServer.getNode().getNodeId().getPeerId().getPort());
     }
